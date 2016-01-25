@@ -48,6 +48,16 @@ angular.module('privacyideaApp.configStates', ['ui.router']).config(
                     url: "/passwd",
                     templateUrl: configpath + "config.resolvers.passwd.html"
                 })
+                .state('config.resolvers.editnisresolver', {
+                    // edit an existing resolver
+                    url: "/nis/{resolvername:.*}",
+                    templateUrl: configpath + "config.resolvers.nis.html"
+                })
+                .state('config.resolvers.addnisresolver', {
+                    // Create a new resolver
+                    url: "/nis",
+                    templateUrl: configpath + "config.resolvers.nis.html"
+                })
                 .state('config.resolvers.editpasswdresolver', {
                     // edit an existing resolver
                     url: "/passwd/{resolvername:.*}",

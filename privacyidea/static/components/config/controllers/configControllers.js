@@ -487,7 +487,7 @@ myApp.controller("configController", function ($scope, $location,
     };
 
     // TODO: This information needs to be fetched from the server
-    $scope.availableResolverTypes = ['passwdresolver', 'ldapresolver', 'sqlresolver', 'scimresolver'];
+    $scope.availableResolverTypes = ['passwdresolver', 'ldapresolver', 'sqlresolver', 'scimresolver', 'nisresolver'];
     // TODO: This information needs to be fetched from the server
     $scope.availableMachineResolverTypes = ['hosts', 'ldap'];
     // TODO: This information needs to be fetched from the server
@@ -661,6 +661,32 @@ myApp.controller("PasswdResolverController", function ($scope, ConfigFactory, $s
             var resolver = data.result.value[$scope.resolvername];
             $scope.params = resolver.data;
             $scope.params.type = 'passwdresolver';
+        });
+    }
+
+    $scope.setResolver = function () {
+        ConfigFactory.setResolver($scope.resolvername, $scope.params, function (data) {
+            $scope.set_result = data.result.value;
+            $scope.getResolvers();
+            $state.go("config.resolvers.list");
+        });
+    };
+});
+
+myApp.controller("NisResolverController", function ($scope, ConfigFactory, $state, $stateParams) {
+    $scope.params = {
+        type: 'nisresolver',
+        domain: ""
+    };
+
+    $scope.resolvername = $stateParams.resolvername;
+    if ($scope.resolvername) {
+        /* If we have a resolvername, we do an Edit
+         and we need to fill all the $scope.params */
+        ConfigFactory.getResolver($scope.resolvername, function (data) {
+            var resolver = data.result.value[$scope.resolvername];
+            $scope.params = resolver.data;
+            $scope.params.type = 'nisresolver';
         });
     }
 
